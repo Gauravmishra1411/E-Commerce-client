@@ -36,7 +36,8 @@ const Login = () => {
    fetch("https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password }),
+  body: JSON.stringify({ email: formData.email,
+            password: formData.password, }),
   credentials: "include"
 })
 
@@ -100,6 +101,7 @@ const Login = () => {
 };
 
 export default Login;
+
 
 
 
