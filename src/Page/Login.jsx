@@ -5,6 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
 
 const Login = () => {
+  const API_URL = process.env.NODE_ENV === "production"
+  ? "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login"
+  : "http://localhost:8000/api/login";
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -20,9 +23,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(
+      const res = await fetch(API_URL
         // "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login",
-        "https://e-commerce-api-indol-beta.vercel.app/api/login"
+        // "https://e-commerce-api-indol-beta.vercel.app/api/login"
         {
           method: "POST",
           headers: {
@@ -94,4 +97,5 @@ const Login = () => {
 };
 
 export default Login;
+
 
