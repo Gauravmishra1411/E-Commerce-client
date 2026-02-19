@@ -21,7 +21,8 @@ const Login = () => {
 
     try {
       const res = await fetch(
-        "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login",
+        // "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login",
+        "https://e-commerce-api-indol-beta.vercel.app/api/login"
         {
           method: "POST",
           headers: {
@@ -93,3 +94,4 @@ const Login = () => {
 };
 
 export default Login;
+
