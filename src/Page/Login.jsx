@@ -20,13 +20,19 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://e-commerce-api-indol-beta.vercel.app/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
         },
-        body: JSON.stringify(formData),
-      });
+      );
 
       const data = await res.json();
 

@@ -23,7 +23,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://e-commerce-api-indol-beta.vercel.app/api/user-reg", {
+      const res = await fetch("https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/user-reg", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
