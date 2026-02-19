@@ -33,16 +33,21 @@ const Login = () => {
       //     }),
       //   },
       // );
-   fetch("https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email: formData.email,
-            password: formData.password, }),
-  credentials: "include"
-})
+ const res = await fetch(
+  "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ 
+      email: formData.email,
+      password: formData.password,
+    }),
+    credentials: "include", // only needed if backend uses cookies
+  }
+);
 
+const data = await res.json();
 
-      const data = await res.json();
 
       if (!res.ok) {
         toast.error(data.message || "Login failed");
@@ -101,6 +106,7 @@ const Login = () => {
 };
 
 export default Login;
+
 
 
 
