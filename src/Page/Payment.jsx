@@ -9,13 +9,25 @@ const Payment = ({ product, onBack }) => {
     cvv: "",
   });
 
-  // handle input change
+  const [priceUSD, setPriceUSD] = useState((product.price / 82).toFixed(2)); // INR → USD
+  const [currency, setCurrency] = useState("INR"); // "INR" or "USD"
+
+  // Handle input change with validation
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "cardNumber" || name === "cvv" || name === "expiry") {
+      // Only digits
+      setFormData({ ...formData, [name]: value.replace(/\D/g, "") });
+    } else if (name === "cardName") {
+      // Only letters and spaces
+      setFormData({ ...formData, [name]: value.replace(/[^a-zA-Z\s]/g, "") });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  // handle payment submit
+  // Handle payment submission
   const handlePayment = async (e) => {
     e.preventDefault();
 
@@ -26,7 +38,7 @@ const Payment = ({ product, onBack }) => {
     }
 
     try {
-      const res = await fetch("https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/payment/pay", {
+      const res = await fetch("http://localhost:8000/api/payment/pay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,20 +47,26 @@ const Payment = ({ product, onBack }) => {
         body: JSON.stringify({
           product,
           cardDetails: formData,
+          amount: currency === "INR" ? product.price : priceUSD,
+          currency,
         }),
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        alert(`Payment successful for ${product.title}`);
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.message || "Payment failed. Simulating payment...");
+        alert(`Payment successful for ${product.title} (simulated)`);
         onBack();
-      } else {
-        alert(data.message || "Payment failed");
+        return;
       }
+
+      const data = await res.json();
+      alert(`Payment successful for ${product.title}!`);
+      onBack();
     } catch (error) {
       console.error(error);
-      alert("Server error");
+      alert(`Server error. Payment simulated for ${product.title}`);
+      onBack();
     }
   };
 
@@ -60,7 +78,35 @@ const Payment = ({ product, onBack }) => {
 
       <div className="payment-card">
         <h2>Payment for {product.title}</h2>
-        <p className="total">Total: ${product.price}</p>
+
+        {/* Currency toggle */}
+        <div style={{ marginBottom: "10px" }}>
+          <label>
+            <input
+              type="radio"
+              name="currency"
+              value="INR"
+              checked={currency === "INR"}
+              onChange={() => setCurrency("INR")}
+            />
+            INR (₹)
+          </label>
+
+          <label style={{ marginLeft: "20px" }}>
+            <input
+              type="radio"
+              name="currency"
+              value="USD"
+              checked={currency === "USD"}
+              onChange={() => setCurrency("USD")}
+            />
+            USD ($)
+          </label>
+        </div>
+
+        <p className="total">
+          Total: {currency === "INR" ? `₹${product.price}` : `$${priceUSD}`}
+        </p>
 
         <form onSubmit={handlePayment}>
           <input
@@ -69,6 +115,7 @@ const Payment = ({ product, onBack }) => {
             placeholder="Card Number"
             value={formData.cardNumber}
             onChange={handleChange}
+            maxLength={16}
             required
           />
 
@@ -88,21 +135,22 @@ const Payment = ({ product, onBack }) => {
               placeholder="MM/YY"
               value={formData.expiry}
               onChange={handleChange}
+              maxLength={4}
               required
             />
-
             <input
               type="password"
               name="cvv"
               placeholder="CVV"
               value={formData.cvv}
               onChange={handleChange}
+              maxLength={3}
               required
             />
           </div>
 
           <button type="submit" className="pay-btn">
-            Pay ${product.price}
+            Pay {currency === "INR" ? `₹${product.price}` : `$${priceUSD}`}
           </button>
         </form>
       </div>
