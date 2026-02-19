@@ -23,7 +23,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:8000/api/user-reg", {
+      const res = await fetch("https://e-commerce-api-indol-beta.vercel.app/api/user-reg", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

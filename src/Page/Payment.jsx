@@ -26,7 +26,7 @@ const Payment = ({ product, onBack }) => {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/payment/pay", {
+      const res = await fetch("https://e-commerce-api-indol-beta.vercel.app/api/payment/pay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
