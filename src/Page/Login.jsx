@@ -21,18 +21,25 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch( "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login"
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
-        },
-      );
+      // const res = await fetch( "https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login"
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       email: formData.email,
+      //       password: formData.password,
+      //     }),
+      //   },
+      // );
+   fetch("https://e-commerce-api-git-main-gaurav-kumars-projects-16fed660.vercel.app/api/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email, password }),
+  credentials: "include"
+})
+
 
       const data = await res.json();
 
@@ -93,6 +100,7 @@ const Login = () => {
 };
 
 export default Login;
+
 
 
 
